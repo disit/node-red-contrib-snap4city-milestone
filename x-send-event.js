@@ -35,12 +35,13 @@ module.exports = function (RED) {
                 } 
             };
 
-            const name = msg.payload.hasOwnProperty('name') ? msg.payload.name : config.name;
-            const guid = msg.payload.hasOwnProperty('guid') ? msg.payload.guid : config.guid;
-            const hostname = msg.payload.hasOwnProperty('hostname') ? msg.payload.hostname : config.hostname;
-            const port = msg.payload.hasOwnProperty('port') ? msg.payload.port : config.port;
-
-            const response = await sendXML(access_token, guid, name, hostname, port, serverurl);
+            const name = typeof msg.payload !== 'undefined' ? msg.payload.name : config.name;
+            const guid = typeof msg.payload !== 'undefined' ? msg.payload.guid : config.guid;
+            const hostname = typeof msg.payload !== 'undefined' ? msg.payload.hostname : config.hostname;
+            const port = typeof msg.payload !== 'undefined' ? msg.payload.port : config.port;
+            const description = typeof msg.payload !== 'undefined' ? msg.payload.description : config.description;
+        
+            const response = await sendXML(access_token, guid, name, hostname, description, port, serverurl);
             if (typeof response === 'string') {
                 resultMsg.payload.message = response;
             } else {
